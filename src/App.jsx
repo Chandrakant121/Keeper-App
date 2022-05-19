@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import { Header } from "./Components/Header"
 import { Footer } from './Components/Footer'
@@ -8,8 +9,8 @@ import { CreateArea } from "./Components/CreateArea"
 
 
 function App() {
-
-  const [notes, setNotes] = useState([]);
+  const items = JSON.parse(localStorage.getItem('notes')) || []
+  const [notes, setNotes] = useState(items);
 
   const addNote = (note) => {
     // console.log(note)
@@ -17,6 +18,12 @@ function App() {
       return [...pre, note]
     })
   }
+
+
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
+
 
   const deleteNote = (id) => {
     // console.log("delete")
